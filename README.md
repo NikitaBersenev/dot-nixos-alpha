@@ -1,5 +1,16 @@
 # NixOS 
 
+# Use
+
+
+```bash
+sudo nixos-rebuild switch --flake .#alpha
+sudo nixos-rebuild switch --flake .#lenovo
+```
+
+# Tree
+
+```
 .
 ├── README.md
 ├── flake.lock
@@ -14,4 +25,4 @@
         ├── desktop-hyprland.nix
         ├── desktop-kde.nix
         └── nvidia.nix
-
+```
