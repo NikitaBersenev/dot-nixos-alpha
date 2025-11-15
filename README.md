@@ -29,6 +29,17 @@ sudo nixos-rebuild switch --flake .#lenovo
     │   └── desktop-kde.nix
     ├── driver
     │   └── driver-nvidia.nix
-    └── home-manager
-        └── home.nix
+    ├── home-manager
+    │   ├── default.nix
+    │   └── home.nix
+    ├── misc
+    │   └── base.nix
+    ├── networking
+    │   └── base.nix
+    ├── services
+    │   ├── core.nix
+    │   ├── jupyter.nix
+    │   └── xremap.nix
+    └── user
+        └── habe.nix
 ```
