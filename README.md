@@ -1,6 +1,6 @@
 # NixOS 
 
-# Use
+## Use
 
 
 ```bash
@@ -8,7 +8,7 @@ sudo nixos-rebuild switch --flake .#alpha
 sudo nixos-rebuild switch --flake .#lenovo
 ```
 
-# Tree
+## Tree
 
 ```
 .
