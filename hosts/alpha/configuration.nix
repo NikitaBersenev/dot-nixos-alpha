@@ -1,4 +1,3 @@
-# hosts/alpha/configuration.nix
 { inputs, config, pkgs, ... }:
 
 let
@@ -24,7 +23,6 @@ in
     ./hardware-configuration.nix
     ../../modules/default.nix
 
-    # External modules
     inputs.home-manager.nixosModules.home-manager
     inputs.xremap.nixosModules.default
   ];
@@ -86,12 +84,12 @@ in
       "disk"
       "storage"
     ];
-    shell    = pkgs.fish;
-    packages = with pkgs; [ ];
+    shell    = pkgs.fish;   # логин-шелл всё равно задаём на уровне системы
+    packages = [ ];
   };
 
   ##############################################################################
-  ## Input / hotkeys
+  ## Input / uinput
   ##############################################################################
 
   hardware.uinput.enable = true;
@@ -99,23 +97,6 @@ in
   services.udev.extraRules = ''
     KERNEL=="uinput", GROUP="input", TAG+="uaccess"
   '';
-
-  environment.etc."xbindkeys/xbindkeysrc".text = ''
-    # Win (Mod4) + s -> запустить ghostty
-    "ghostty"
-      Mod4 + s
-  '';
-
-  systemd.user.services.xbindkeys = {
-    description = "xbindkeys daemon for global hotkeys";
-    wantedBy    = [ "graphical-session.target" ];
-    partOf      = [ "graphical-session.target" ];
-
-    serviceConfig = {
-      ExecStart = "${pkgs.xbindkeys}/bin/xbindkeys -f /etc/xbindkeys/xbindkeysrc";
-      Restart   = "always";
-    };
-  };
 
   ##############################################################################
   ## Graphics / sound / desktop
@@ -159,7 +140,7 @@ in
   };
 
   ##############################################################################
-  ## xremap
+  ## xremap (системный сервис, но работает за пользователя)
   ##############################################################################
 
   services.xremap = {
@@ -193,12 +174,14 @@ in
   ##############################################################################
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users.habe       = import ../../modules/home-manager/home.nix;
+    extraSpecialArgs = {
+      inherit inputs ;
+    };
+    users.habe = import ../../modules/home-manager/home.nix;
   };
 
   ##############################################################################
-  ## Profiles
+  ## Profiles (десктопы/драйверы)
   ##############################################################################
 
   profiles.desktop.kde.enable = true;
@@ -211,105 +194,13 @@ in
   };
 
   ##############################################################################
-  ## Packages
+  ## Nix / системные программы
   ##############################################################################
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
-    # Editors & terminals
-    vim
-    nixfmt
-    neovim
-    vscode
-    kitty
-    alacritty
-    ghostty
-    wezterm
-    home-manager
-
-    # Fonts
-    nerd-fonts.jetbrains-mono
-
-    # GUI
-    obs-studio
-    google-chrome
-    firefox
-    telegram-desktop
-
-    # Shell / Fish ecosystem
-    fish
-    fishPlugins.done
-    fishPlugins.fzf-fish
-    fishPlugins.grc
-    fishPlugins.tide
-    fzf
-    grc
-
-    # CLI utils
-    wl-clipboard
-    bat
-    gnupg
-    git
-    git-crypt
-    curl
-    wget
-    neofetch
-    pigz
-    pv
-    gnutar
-    gzip
-    xz
-    unzip
-    bash
-    coreutils
-    findutils
-    gnugrep
-    procps
-    go-task
-    tre-command
-    rainfrog
-    flatpak
-    xremap
-    xbindkeys
-
-    # Dev tools
-    go
-    gopls
-    nodejs
-    gnumake
-    binutils
-    ollama
-    uv
-
-    # Containers & virtualization
-    docker
-    docker-compose
-    qemu-utils
-    qemu_kvm
-    OVMF
-
-    (pkgs.python3.withPackages (ps: with ps; [
-      pip
-      ipykernel
-      notebook
-      jupyterlab
-    ]))
-  ];
-
-  ##############################################################################
-  ## Programs
-  ##############################################################################
-
-  programs = {
-    firefox.enable = true;
-    fish.enable    = true;
-    nix-ld.enable  = true;
-  };
-
-  ##############################################################################
-  ## Nix settings
-  ##############################################################################
+  programs.nix-ld.enable = true;
+  programs.fish.enable = true;
 
   nix = {
     settings = {
@@ -341,7 +232,7 @@ in
   };
 
   ##############################################################################
-  ## Services
+  ## Services (system-wide)
   ##############################################################################
 
   services.openssh = {
