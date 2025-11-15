@@ -1,43 +1,35 @@
 {
-  description = "Home Manager configuration of habe";
+  description = "NixOS + Home Manager for habe";
 
   inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    xremap = {
+      url = "github:xremap/nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    { self, nixpkgs, home-manager, ... } @ inputs:
-    let
-      system = "x86_64-linux";
-      #pkgs = nixpkgs.legacyPackages.${system};
-	pkgs = import nixpkgs {
-		inherit system;
-		config = {
-			allowUnfree = true;
-		};
-	};
+  outputs = { self, nixpkgs, home-manager, xremap, ... } @ inputs:
+  let
+    system = "x86_64-linux";
+  in {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      inherit system;
 
-    in
-    {
-      homeConfigurations."habe" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-	inherit system;
-	specialArgs = { inherit system inputs; };
-
-        modules = [ 
-	./nixos/configuration.nix
-	./home-manager/home.nix 
-
-	];
+      specialArgs = {
+        inherit system inputs;
       };
+
+      modules = [
+        ./nixos/configuration.nix
+      ];
     };
+  };
 }
-
-
-
 

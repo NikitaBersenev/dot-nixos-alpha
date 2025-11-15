@@ -18,7 +18,6 @@ let
     tqdm
     # add others as needed
   ]);
-  xremapFlake = builtins.getFlake "github:xremap/nix-flake";
 in
 {
   imports = [
@@ -32,7 +31,9 @@ in
 
     ./modules/nvidia.nix
     #inputs.home-manager.nixosModules.home-manager
-    xremapFlake.nixosModules.default
+    
+    inputs.home-manager.nixosModules.home-manager
+    inputs.xremap.nixosModules.default
   ];
 
   # Bootloader
@@ -202,12 +203,12 @@ in
 #  };
 #};
 
-  #home-manager = {
-#	extraSpecialArgs = { inherit inputs; };
-#	users = {
-#		habe = import ./home.nix;
-#	};
-#  };
+  home-manager = {
+	extraSpecialArgs = { inherit inputs; };
+	users = {
+		habe = import ../home-manager/home.nix;
+	};
+  };
   #profiles.desktop.hyprland.enable  = true;
   profiles.desktop.kde.enable   = true;
   #profiles.desktop.gnome.enable = true;
