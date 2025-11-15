@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { inputs, config, pkgs, ... }:
 
 let
@@ -20,41 +16,45 @@ let
   ]);
 in
 {
+  
+  # ---------------------------------------------------------------------------
+  # Imports
   imports = [
-    # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-
+    # DESKTOP
     #./modules/desktop-gnome.nix
     ./modules/desktop-kde.nix
     # ./modules/desktop-hyprland.nix
 
+
+    # DRIVER
     ./modules/nvidia.nix
-    #inputs.home-manager.nixosModules.home-manager
-    
+
+    # INPUTS
     inputs.home-manager.nixosModules.home-manager
     inputs.xremap.nixosModules.default
   ];
 
+  
+  # ---------------------------------------------------------------------------
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.blacklistedKernelModules = [ "nouveau" ]; # Optional but recommended to avoid conflicts
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  
+  # ---------------------------------------------------------------------------
+  # Networking
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
+  # networking.wireless.enable = true;  
+  networking.hostName = "nixos"; 
+  
+  # ---------------------------------------------------------------------------
+  # Time
   time.timeZone = "Europe/Volgograd";
 
-  # Select internationalisation properties.
+  # ---------------------------------------------------------------------------
+  # i18n
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS        = "ru_RU.UTF-8";
@@ -68,8 +68,9 @@ in
     LC_TIME           = "ru_RU.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
+  
+  # ---------------------------------------------------------------------------
+  # services
   services.xserver = {
     enable = true;               # Enable the X11 windowing system.
     videoDrivers = [ "nvidia" ]; # Specify "nvidia" driver
@@ -81,14 +82,8 @@ in
     };
   };
 
-  # Enable the KDE Plasma Desktop Environment.
- # services.displayManager.sddm.enable = true;
- #  services.desktopManager.plasma6.enable = true;
-
-  # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable      = true;
   services.pipewire = {
@@ -96,14 +91,11 @@ in
     alsa.enable     = true;
     alsa.support32Bit = true;
     pulse.enable    = true;
-    # If you want to use JACK applications, uncomment this:
     # jack.enable = true;
   };
 
-  # Enable touchpad support (enabled by default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.habe = {
     isNormalUser = true;
     description  = "habe";
