@@ -15,14 +15,20 @@ sudo nixos-rebuild switch --flake .#lenovo
 ├── README.md
 ├── flake.lock
 ├── flake.nix
-├── home-manager
-│   └── home.nix
-└── nixos
-    ├── configuration.nix
-    ├── hardware-configuration.nix
-    └── modules
-        ├── desktop-gnome.nix
-        ├── desktop-hyprland.nix
-        ├── desktop-kde.nix
-        └── nvidia.nix
+├── hosts
+│   ├── alpha
+│   │   ├── configuration.nix
+│   │   └── hardware-configuration.nix
+│   └── lenovo
+│       └── configuration.nix
+└── modules
+    ├── default.nix
+    ├── desktop
+    │   ├── desktop-gnome.nix
+    │   ├── desktop-hyprland.nix
+    │   └── desktop-kde.nix
+    ├── driver
+    │   └── driver-nvidia.nix
+    └── home-manager
+        └── home.nix
 ```
