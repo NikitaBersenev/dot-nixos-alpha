@@ -1,5 +1,5 @@
 {
-  description = "NixOS + Home Manager for habe";
+  description = "NixOS Alpha";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -18,17 +18,21 @@
   outputs = { self, nixpkgs, home-manager, xremap, ... } @ inputs:
   let
     system = "x86_64-linux";
-  in {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      inherit system;
 
-      specialArgs = {
-        inherit system inputs;
+    mkHost = hostPath:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+
+        specialArgs = {
+          inherit system inputs;
+        };
+
+        modules = [ hostPath ];
       };
-
-      modules = [
-        ./nixos/configuration.nix
-      ];
+  in {
+    nixosConfigurations = {
+      alpha  = mkHost ./hosts/alpha/configuration.nix;
+      lenovo = mkHost ./hosts/lenovo/configuration.nix;
     };
   };
 }

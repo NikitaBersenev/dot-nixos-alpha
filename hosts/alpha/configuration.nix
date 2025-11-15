@@ -1,3 +1,4 @@
+# hosts/alpha/configuration.nix
 { inputs, config, pkgs, ... }:
 
 let
@@ -15,20 +16,15 @@ let
   ]);
 in
 {
+  networking.hostName = "alpha";
+
   ##############################################################################
   ## Imports
   ##############################################################################
 
   imports = [
     ./hardware-configuration.nix
-
-    # Desktop profiles
-    ./modules/desktop-kde.nix
-    # ./modules/desktop-gnome.nix
-    # ./modules/desktop-hyprland.nix
-
-    # Hardware profiles
-    ./modules/nvidia.nix
+    ../../modules/default.nix
 
     # External modules
     inputs.home-manager.nixosModules.home-manager
@@ -42,7 +38,6 @@ in
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    # blacklistedKernelModules настраивается в profiles.nvidia
     kernelModules = [ "uinput" ];
   };
 
@@ -51,7 +46,7 @@ in
   ##############################################################################
 
   networking = {
-    hostName = "nixos";
+    hostName = "alpha";
     networkmanager.enable = true;
   };
 
@@ -107,7 +102,6 @@ in
     KERNEL=="uinput", GROUP="input", TAG+="uaccess"
   '';
 
-  # xbindkeys как простой демон глобальных хоткеев (X11)
   environment.etc."xbindkeys/xbindkeysrc".text = ''
     # Win (Mod4) + s -> запустить ghostty
     "ghostty"
@@ -145,11 +139,10 @@ in
   security.rtkit.enable      = true;
 
   services.pipewire = {
-    enable           = true;
-    alsa.enable      = true;
+    enable            = true;
+    alsa.enable       = true;
     alsa.support32Bit = true;
-    pulse.enable     = true;
-    # jack.enable = true;
+    pulse.enable      = true;
   };
 
   ##############################################################################
@@ -176,7 +169,6 @@ in
     serviceMode = "user";
     userName    = "habe";
 
-    # KDE Wayland integration
     withKDE = true;
     watch   = true;
 
@@ -204,7 +196,7 @@ in
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
-    users.habe       = import ../home-manager/home.nix;
+    users.habe       = import ../../modules/home-manager/home.nix;
   };
 
   ##############################################################################
@@ -299,12 +291,11 @@ in
     qemu_kvm
     OVMF
 
-    # Jupyter / Python env для интерактивной работы
     (pkgs.python3.withPackages (ps: with ps; [
       pip
       ipykernel
-      notebook   # классический сервер
-      jupyterlab # современный интерфейс
+      notebook
+      jupyterlab
     ]))
   ];
 
@@ -359,15 +350,14 @@ in
     enable       = true;
     openFirewall = true;
     settings = {
-      PermitRootLogin             = "no";
-      PasswordAuthentication      = false;
+      PermitRootLogin              = "no";
+      PasswordAuthentication       = false;
       KbdInteractiveAuthentication = false;
-      X11Forwarding               = false;
-      AllowTcpForwarding          = "yes";
+      X11Forwarding                = false;
+      AllowTcpForwarding           = "yes";
     };
   };
 
-  # JupyterLab как системный сервис (стандартный модуль services.jupyter) :contentReference[oaicite:0]{index=0}
   services.jupyter = {
     enable      = true;
     command     = "jupyter-lab";
@@ -406,6 +396,6 @@ in
   system.stateVersion = "25.05";
 
   system.autoUpgrade.enable = true;
-  system.autoUpgrade.dates = "weekly";
+  system.autoUpgrade.dates  = "weekly";
 }
 
