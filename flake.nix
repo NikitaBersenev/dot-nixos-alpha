@@ -16,24 +16,27 @@
   };
 
   outputs = { self, nixpkgs, home-manager, xremap, ... } @ inputs:
-  let
-    system = "x86_64-linux";
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
 
-    mkHost = hostPath:
-      nixpkgs.lib.nixosSystem {
-        inherit system;
+      mkHost = hostPath:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
 
-        specialArgs = {
-          inherit system inputs;
+          specialArgs = {
+            inherit system inputs;
+          };
+
+          modules = [ hostPath ];
         };
-
-        modules = [ hostPath ];
+    in
+    {
+      formatter.${system} = pkgs.nixpkgs-fmt;
+      nixosConfigurations = {
+        alpha = mkHost ./hosts/alpha/configuration.nix;
+        lenovo = mkHost ./hosts/lenovo/configuration.nix;
       };
-  in {
-    nixosConfigurations = {
-      alpha  = mkHost ./hosts/alpha/configuration.nix;
-      lenovo = mkHost ./hosts/lenovo/configuration.nix;
     };
-  };
 }
 

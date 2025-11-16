@@ -17,7 +17,7 @@ in
       enable = true;
 
       xkb = {
-        layout  = "us,ru";
+        layout = "us,ru";
         options = "grp:alt_shift_toggle";
         variant = "";
       };
@@ -32,13 +32,13 @@ in
     ## Audio (PipeWire)
     ############################################################################
     services.pulseaudio.enable = false;
-    security.rtkit.enable      = true;
+    security.rtkit.enable = true;
 
     services.pipewire = {
-      enable            = true;
-      alsa.enable       = true;
+      enable = true;
+      alsa.enable = true;
       alsa.support32Bit = true;
-      pulse.enable      = true;
+      pulse.enable = true;
     };
 
     ############################################################################
@@ -48,8 +48,8 @@ in
 
     systemd.services.flatpak-repo = {
       wantedBy = [ "multi-user.target" ];
-      path     = [ pkgs.flatpak ];
-      script   = ''
+      path = [ pkgs.flatpak ];
+      script = ''
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         flatpak install -y flathub ru.yandex.Browser
       '';
@@ -59,14 +59,14 @@ in
     ## OpenSSH
     ############################################################################
     services.openssh = {
-      enable       = true;
+      enable = true;
       openFirewall = true;
       settings = {
-        PermitRootLogin              = "no";
-        PasswordAuthentication       = false;
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
-        X11Forwarding                = false;
-        AllowTcpForwarding           = "yes";
+        X11Forwarding = false;
+        AllowTcpForwarding = "yes";
       };
     };
 

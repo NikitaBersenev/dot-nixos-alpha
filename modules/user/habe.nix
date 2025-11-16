@@ -11,7 +11,7 @@ in
   config = lib.mkIf cfg.enable {
     users.users.habe = {
       isNormalUser = true;
-      description  = "habe";
+      description = "habe";
       extraGroups = [
         "wheel"
         "networkmanager"
@@ -22,7 +22,7 @@ in
         "disk"
         "storage"
       ];
-      shell    = pkgs.fish;
+      shell = pkgs.fish;
       packages = [ ];
     };
 

@@ -23,14 +23,14 @@ in
 
   config = lib.mkIf cfg.enable {
     services.jupyter = {
-      enable      = true;
-      command     = "jupyter-lab";
-      user        = "habe";
-      group       = "users";
-      ip          = "0.0.0.0";
-      port        = 8888;
+      enable = true;
+      command = "jupyter-lab";
+      user = "habe";
+      group = "users";
+      ip = "0.0.0.0";
+      port = 8888;
       notebookDir = "/home/habe/notebooks";
-      password    = "argon2:$argon2id$v=19$m=10240,t=10,p=8$3JV0zWyXjdqyBtSSMo/iPg$B7C24pNyHYe4whuXo5fwy9oA9jfAILMwzZo2+Gh34YY";
+      password = "argon2:$argon2id$v=19$m=10240,t=10,p=8$3JV0zWyXjdqyBtSSMo/iPg$B7C24pNyHYe4whuXo5fwy9oA9jfAILMwzZo2+Gh34YY";
 
       extraEnvironmentVariables = {
         BROWSER_PATH = "${pkgs.google-chrome}/bin/google-chrome-stable";
@@ -39,7 +39,7 @@ in
       kernels = {
         python3 = {
           displayName = "Python 3 (Nix)";
-          language    = "python";
+          language = "python";
           argv = [
             "${myPython.interpreter}"
             "-m"

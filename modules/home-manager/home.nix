@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  home.username      = "habe";
+  home.username = "habe";
   home.homeDirectory = "/home/habe";
-  home.stateVersion  = "24.11";
+  home.stateVersion = "24.11";
 
   ##############################################################################
   ## Packages
@@ -13,6 +13,13 @@
 
   home.packages =
     (with pkgs; [
+      # New 
+      age
+      gcc
+      htop
+      appimage-run
+      haruna
+      nixpkgs-fmt
 
       # Editors & terminals
       vim
@@ -118,7 +125,7 @@
   systemd.user.services.xbindkeys = {
     Unit = {
       Description = "xbindkeys daemon for global hotkeys";
-      PartOf      = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
     };
 
     Install = {
@@ -127,7 +134,7 @@
 
     Service = {
       ExecStart = "${pkgs.xbindkeys}/bin/xbindkeys";
-      Restart   = "always";
+      Restart = "always";
     };
   };
 

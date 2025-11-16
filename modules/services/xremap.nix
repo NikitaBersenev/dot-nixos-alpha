@@ -14,16 +14,16 @@ in
 
   config = lib.mkIf cfg.enable {
     services.xremap = {
-      enable      = true;
+      enable = true;
       serviceMode = "user";
-      userName    = "habe";
+      userName = "habe";
 
       withKDE = true;
-      watch   = true;
+      watch = true;
 
       config.keymap = [
         {
-          name  = "Win+S -> ghostty";
+          name = "Win+S -> ghostty";
           remap = {
             "SUPER-s" = {
               launch = [
