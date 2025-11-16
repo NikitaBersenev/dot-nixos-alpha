@@ -15,6 +15,7 @@
     (with pkgs; [
       # New 
       age
+      gh
       gcc
       htop
       appimage-run
