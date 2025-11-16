@@ -8,6 +8,12 @@ sudo nixos-rebuild switch --flake .#alpha
 sudo nixos-rebuild switch --flake .#lenovo
 ```
 
+## Develop
+
+```bash
+nix fmt ./**/*.nix
+```
+
 ## Tree
 
 ```
