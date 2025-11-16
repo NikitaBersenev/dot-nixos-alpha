@@ -20,11 +20,16 @@ in
     }];
 
     services.displayManager.sddm.enable = true;
+    services.displayManager.gdm.enable = lib.mkForce false;
     services.displayManager.sddm.wayland.enable = lib.mkDefault cfg.wayland;
 
-    services.displayManager.gdm.enable = lib.mkForce false;
+
+    services.xserver.displayManager.gdm.enable = lib.mkForce false;
+    services.xserver.desktopManager.gnome.enable = lib.mkForce false;
+
     services.desktopManager.gnome.enable = lib.mkForce false;
-    services.desktopManager.plasma6.enable = lib.mkForce false;
+    services.desktopManager.plasma6.enable = true;
+    #services.desktopManager.plasma6.enable = lib.mkForce false;
 
   };
 }
