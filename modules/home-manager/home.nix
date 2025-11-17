@@ -17,7 +17,10 @@
       age
       gh
       gcc
+      openvpn-gui
       htop
+      discord-ptb
+      openvpn
       appimage-run
       haruna
       nixpkgs-fmt
