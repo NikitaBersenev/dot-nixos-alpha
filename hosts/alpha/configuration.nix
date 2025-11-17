@@ -15,9 +15,14 @@
     hostName = "alpha";
   };
 
-  profiles.misc.base = {
-    enable = true;
-    timeZone = "Europe/Volgograd";
+  profiles.misc = {
+
+    base = {
+      enable = true;
+      timeZone = "Europe/Volgograd";
+    };
+
+    theme.enable = true;
   };
 
   profiles.user.habe.enable = true;
@@ -27,6 +32,7 @@
   profiles.desktop.gnome.enable = false;
   profiles.desktop.hyprland.enable = true;
   # profiles.desktop.hyprland.enable = false;
+
 
   profiles.nvidia = {
     enable = true;

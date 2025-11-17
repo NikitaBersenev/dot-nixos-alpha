@@ -5,16 +5,22 @@ let
   cfg = config.profiles.misc.base;
 in
 {
-  options.profiles.misc.base = {
-    enable = lib.mkEnableOption "Base misc system config (boot, time, locale, nix, uinput, upgrades)";
 
-    timeZone = lib.mkOption {
-      type = lib.types.str;
-      default = "Europe/Volgograd";
-      description = "Системный часовой пояс.";
+
+  options.profiles.misc = {
+    base = {
+
+      enable = lib.mkEnableOption "Base misc system config (boot, time, locale, nix, uinput, upgrades)";
+
+      timeZone = lib.mkOption {
+        type = lib.types.str;
+        default = "Europe/Volgograd";
+        description = "Системный часовой пояс.";
+      };
     };
-  };
 
+    theme.enable = lib.mkEnableOption "Глобальная тёмная тема";
+  };
   config = lib.mkIf cfg.enable {
     ############################################################################
     ## Boot
@@ -89,6 +95,8 @@ in
         "nixos-config=/etc/nixos/configuration.nix"
       ];
     };
+
+
 
     ############################################################################
     ## Auto upgrade

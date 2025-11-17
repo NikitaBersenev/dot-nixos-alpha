@@ -162,7 +162,7 @@
     # Если хочешь продолжать стартовать через Hyprland exec-once,
     # можно оставить enable = false.
     systemd = {
-      enable = false; # ты сейчас стартуешь "caelestia shell -d" из Hyprland
+      enable = true;
       target = "graphical-session.target";
       environment = [ ];
     };
@@ -188,9 +188,9 @@
     enable = true;
 
     settings = {
-      exec-once = [
-        "caelestia shell -d"
-      ];
+      #exec-once = [
+      #  "caelestia shell -d"
+      #];
 
       monitor = ",preferred,auto,1";
 
