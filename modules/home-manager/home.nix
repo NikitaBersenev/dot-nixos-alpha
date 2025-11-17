@@ -20,6 +20,8 @@
       htop
       discord-ptb
       openvpn
+      caelestia-shell
+      caelestia-cli
       appimage-run
       haruna
       nixpkgs-fmt
@@ -114,7 +116,15 @@
   programs.fish = {
     enable = true;
   };
-
+  
+  wayland.windowManager.hyprland = {
+    enable = true;
+    settings = {
+      exec-once = [
+        "caelestia shell -d"
+      ];
+    };
+  };
   ##############################################################################
   ## xbindkeys 
   ##############################################################################

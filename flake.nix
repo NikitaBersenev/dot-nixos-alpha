@@ -13,6 +13,13 @@
       url = "github:xremap/nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs = { self, nixpkgs, home-manager, xremap, ... } @ inputs:
@@ -28,7 +35,21 @@
             inherit system inputs;
           };
 
-          modules = [ hostPath ];
+          modules = [ 
+
+	  hostPath 
+
+
+            {
+              nixpkgs.overlays = [
+                (final: prev: {
+                  caelestia-shell = caelestia-shell.packages.${system}.caelestia-shell;
+                  caelestia-cli   = caelestia-shell.inputs.caelestia-cli.packages.${system}.caelestia-cli;
+                })
+              ];
+            }
+
+	  ];
         };
     in
     {
