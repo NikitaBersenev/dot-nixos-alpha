@@ -17,7 +17,6 @@
       age
       gh
       gcc
-      openvpn-gui
       htop
       discord-ptb
       openvpn
