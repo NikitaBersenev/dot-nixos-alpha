@@ -12,11 +12,21 @@ in
     enable = lib.mkEnableOption "Home Manager config for user habe";
   };
 
+
+
   config = lib.mkIf cfg.enable {
     home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+
       extraSpecialArgs = {
         inherit inputs;
       };
+
+
+      sharedModules = [
+        inputs.caelestia-shell.homeManagerModules.default
+      ];
 
       users.habe = import ./home.nix;
     };

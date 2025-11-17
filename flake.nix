@@ -22,7 +22,7 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, xremap, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, xremap, caelestia-shell, ... } @ inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
@@ -35,21 +35,21 @@
             inherit system inputs;
           };
 
-          modules = [ 
+          modules = [
 
-	  hostPath 
+            hostPath
 
 
             {
               nixpkgs.overlays = [
                 (final: prev: {
                   caelestia-shell = caelestia-shell.packages.${system}.caelestia-shell;
-                  caelestia-cli   = caelestia-shell.inputs.caelestia-cli.packages.${system}.caelestia-cli;
+                  caelestia-cli = caelestia-shell.inputs.caelestia-cli.packages.${system}.caelestia-cli;
                 })
               ];
             }
 
-	  ];
+          ];
         };
     in
     {

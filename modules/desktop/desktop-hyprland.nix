@@ -10,7 +10,7 @@ in
     enable = lib.mkEnableOption "Hyprland (Wayland)";
     wayland = lib.mkOption {
       type = lib.types.bool;
-      default = true; 
+      default = true;
       description = "Запускать SDDM на Wayland. На саму сессию Hyprland (всегда Wayland) не влияет.";
     };
     xwayland = lib.mkOption {

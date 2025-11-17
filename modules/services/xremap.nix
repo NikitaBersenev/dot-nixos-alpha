@@ -18,7 +18,7 @@ in
       serviceMode = "user";
       userName = "habe";
 
-      withKDE = true;
+      # withKDE = true;
       watch = true;
 
       config.keymap = [
