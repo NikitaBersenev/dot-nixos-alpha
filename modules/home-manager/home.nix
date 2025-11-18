@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.username = "habe";
@@ -15,6 +15,9 @@
     (with pkgs; [
       # New 
       kdePackages.qtsvg
+      virt-manager
+      swww
+      waypaper
 
       kdePackages.kio-fuse #to mount remote filesystems via FUSE
       kdePackages.kio-extras #extra protocols support (sftp, fish and more)
@@ -155,33 +158,37 @@
   # };
   #};
 
-  programs.caelestia = {
-    enable = true;
+  #  programs.caelestia = {
+  #    enable = true;
+  #
+  #    systemd = {
+  #      enable = true;
+  #      target = "graphical-session.target";
+  #      environment = [ ];
+  #    };
+  #
+  #    settings = {
+  #      bar.status = {
+  #        showBattery = false;
+  #      };
+  #      paths.wallpaperDir = "~/Images";
+  #    };
+  #
+  #    cli = {
+  #      enable = true; 
+  #      settings = {
+  #        theme.enableGtk = false;
+  #      };
+  #    };
+  #  };
 
-    # Автостарт через systemd user-service.
-    # Если хочешь продолжать стартовать через Hyprland exec-once,
-    # можно оставить enable = false.
-    systemd = {
-      enable = true;
-      target = "graphical-session.target";
-      environment = [ ];
-    };
-
-    settings = {
-      bar.status = {
-        showBattery = false;
-      };
-      paths.wallpaperDir = "~/Images";
-    };
-
-    cli = {
-      enable = true; # добавит caelestia-cli в PATH
-      settings = {
-        theme.enableGtk = false;
-      };
-    };
-  };
-
+  home.activation.enableMinimizeAll = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+      --file kwinrc \
+      --group Plugins \
+      --key minimizeallEnabled \
+      true
+  '';
 
 
   wayland.windowManager.hyprland = {
@@ -250,30 +257,32 @@
         "$mod, t, exec, ${pkgs.ghostty}/bin/ghostty"
       ];
 
-      decoration = {
-        rounding = 10;
-        blur = {
-          enabled = true;
-          size = 3;
-          passes = 1;
-        };
-      };
+      #  decoration = {
+      #    rounding = 10;
+      #    blur = {
+      #      enabled = true;
+      #      size = 3;
+      #      passes = 1;
+      #    };
+      #  };
 
-      # Animations
-      animations = {
-        enabled = true;
-        bezier = "default, 0.05, 0.9, 0.1, 1.05";
-        animation = [
-          "windows, 1, 7, default"
-          "border, 1, 10, default"
-          "fade, 1, 7, default"
-        ];
-      };
+      #  # Animations
+      #  animations = {
+      #    enabled = true;
+      #    bezier = "default, 0.05, 0.9, 0.1, 1.05";
+      #    animation = [
+      #      "windows, 1, 7, default"
+      #      "border, 1, 10, default"
+      #      "fade, 1, 7, default"
+      #    ];
+      #  };
     };
   };
   ##############################################################################
   ## xbindkeys 
   ##############################################################################
+
+
 
   home.file.".xbindkeysrc".text = ''
     # Win (Mod4) + s -> запустить ghostty

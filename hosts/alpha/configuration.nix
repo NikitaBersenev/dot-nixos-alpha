@@ -26,11 +26,11 @@
   };
 
   profiles.user.habe.enable = true;
-  # profiles.desktop.kde.enable = true;
-  profiles.desktop.kde.enable = false;
+  profiles.desktop.kde.enable = true;
+  # profiles.desktop.kde.enable = false;
   # profiles.desktop.gnome.enable = true;
-  profiles.desktop.gnome.enable = false;
-  profiles.desktop.hyprland.enable = true;
+  # profiles.desktop.gnome.enable = false;
+  # profiles.desktop.hyprland.enable = true;
   # profiles.desktop.hyprland.enable = false;
 
 
