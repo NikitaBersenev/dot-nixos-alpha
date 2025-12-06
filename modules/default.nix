@@ -26,6 +26,8 @@
 
     # Home-manager integration
     ./home-manager/default.nix
+    
+    ./desktop/desktop-cinnamon.nix
   ];
 }
 

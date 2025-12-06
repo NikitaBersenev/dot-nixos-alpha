@@ -26,7 +26,8 @@
   };
 
   profiles.user.habe.enable = true;
-  profiles.desktop.kde.enable = true;
+  profiles.desktop.cinnamon.enable = true;
+  #profiles.desktop.kde.enable = true;
   # profiles.desktop.kde.enable = false;
   # profiles.desktop.gnome.enable = true;
   # profiles.desktop.gnome.enable = false;
